@@ -1,11 +1,4 @@
-var GraphQLSchema = require('graphql').GraphQLSchema;
-var GraphQLObjectType = require('graphql').GraphQLObjectType;
-var GraphQLList = require('graphql').GraphQLList;
-var GraphQLObjectType = require('graphql').GraphQLObjectType;
-var GraphQLNonNull = require('graphql').GraphQLNonNull;
-var GraphQLID = require('graphql').GraphQLID;
-var GraphQLString = require('graphql').GraphQLString;
-var GraphQLInt = require('graphql').GraphQLInt;
+var {GraphQLSchema, GraphQLObjectType, GraphQLList, GraphQLNonNull, GraphQLID, GraphQLString, GraphQLInt}= require('graphql');
 var GraphQLDate = require('graphql-date');
 var BookModel = require('../models/Book');
 
@@ -76,9 +69,6 @@ var queryType = new GraphQLObjectType({
     }
 });
 
-module.exports = new GraphQLSchema({query: queryType});
-
-
 var mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: function () {
@@ -142,8 +132,10 @@ var mutation = new GraphQLObjectType({
                 },
                 resolve(root, params) {
                     return BookModel.findByIdAndUpdate(params.id, { isbn: params.isbn, title: params.title, author: params.author, description: params.description, published_year: params.published_year, publisher: params.publisher, updated_date: new Date() }, function (err) {
-                        if (err) return next(err);
                     });
+                    if (err){
+                        return next(err);
+                    }
                 }
             },
             removeBook: {

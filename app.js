@@ -40,7 +40,7 @@ app.use(function(req, res, next) {
 
 mongoose.connect('mongodb://127.0.0.1/node-graphql', { promiseLibrary: require('bluebird'),
                                                                   useNewUrlParser: true,
-                                                                  useUnifiedTopology: true})
+                                                                  useUnifiedTopology: true,useFindAndModify: false})
     .then(() =>  console.log('connection successful'))
     .catch((err) => console.error(err));
 
